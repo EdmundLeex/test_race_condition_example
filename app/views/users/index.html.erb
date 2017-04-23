@@ -1,0 +1,38 @@
+<input id="email"/>
+<button id="create_user" name="create_user" value="create_user">CREATE USER</button>
+<button id='hacked_create_user' name='hacked_create_user' value='hacked_create_user'>HACKED CREATE USER</button>
+<br>
+
+<div id="users">
+  <% @users.each do |user| %>
+    <%= user.email %><br>
+  <% end %>
+</div>
+
+<div id="error">
+</div>
+
+<script>
+  $('#create_user').on('click', () => {
+    let email = $('#email').val();
+    createUser(email);
+  });
+
+  $('#hacked_create_user').on('click', () => {
+    let email = 'hacker_email@example.com';
+    for (let i = 0; i < 100; i ++) {
+      setTimeout(createUser.bind(null, email), 1000);
+    }
+  });
+
+  function createUser(email) {
+    $.post('<%= users_url %>', { email: email }).done(resp => {
+      if (resp.users) {
+        $('#users').html(JSON.parse(resp.users).map(user => user.email).join('<br>'));
+        $('#email').val('');
+      } else {
+        $('#error').html(resp.error);
+      }
+    });
+  }
+</script>
