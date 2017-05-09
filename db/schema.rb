@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509042043) do
+ActiveRecord::Schema.define(version: 20170509045732) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email",      limit: 255
