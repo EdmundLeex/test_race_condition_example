@@ -20,11 +20,17 @@ RSpec.describe User, type: :model do
 
         mutex = Mutex.new
 
+        err = nil
+
         threads = 4.times.map do
           Thread.new do
             true while wait_for_all_threads
 
-            User.create(email: 'foobar@example.com')
+            begin
+              User.create(email: 'foobar@example.com')
+            rescue ActiveRecord::RecordNotUnique => e
+              err = e
+            end
           end
         end
 
@@ -32,6 +38,7 @@ RSpec.describe User, type: :model do
         threads.each(&:join)
 
         expect(User.count).to eq 1
+        expect(err).to be_a ActiveRecord::RecordNotUnique
       end
     end
   end
