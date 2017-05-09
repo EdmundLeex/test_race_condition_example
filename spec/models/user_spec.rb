@@ -16,29 +16,24 @@ RSpec.describe User, type: :model do
     context 'multi-threaded' do
       it "doesn't run into race condition" do
         expect(ActiveRecord::Base.connection.pool.size).to eq(5)
-        wait_for_all_threads = true
 
-        mutex = Mutex.new
-
-        err = nil
+        wait_for_threads = true
 
         threads = 4.times.map do
           Thread.new do
-            true while wait_for_all_threads
-
             begin
+              true while wait_for_threads
+
               User.create(email: 'foobar@example.com')
             rescue ActiveRecord::RecordNotUnique => e
-              err = e
+              # no op
             end
           end
         end
-
-        wait_for_all_threads = false
+        wait_for_threads = false
         threads.each(&:join)
 
         expect(User.count).to eq 1
-        expect(err).to be_a ActiveRecord::RecordNotUnique
       end
     end
   end
