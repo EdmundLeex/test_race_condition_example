@@ -31,7 +31,7 @@ RSpec.describe User, type: :model do
         wait_for_all_threads = false
         threads.each(&:join)
 
-        binding.pry
+        expect(User.count).to eq 1
       end
     end
   end
