@@ -38,7 +38,7 @@ waiting_for_others = false
 threads.each(&:join)
 ```
 
-3. If you use DatabaseCleaner, set strategy to `:truncation` for race conditions specs
+3. If you set `use_transactional_fixtures = false`, use DatabaseCleaner, set strategy to `:truncation` for race conditions specs
 
 ```ruby
 DatebaseCleaner.strategy = :truncation
