@@ -39,3 +39,23 @@ threads.each(&:join)
 ```
 
 3. If you use DatabaseCleaner, set strategy to `:truncation` for race conditions specs
+
+```ruby
+DatebaseCleaner.strategy = :truncation
+```
+
+Or if you don't want to affect other of your specs, you can add a config like this:
+
+```ruby
+config.before(:each, :with_commit_callbacks => true) do
+  DatabaseCleaner.strategy = :truncation
+end
+```
+
+So you can use it like this:
+
+```ruby
+context 'in high concurrency', with_commit_callbacks: true do
+  # race conditions tests go here
+end
+```
