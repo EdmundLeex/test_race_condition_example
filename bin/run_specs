@@ -1,0 +1,5 @@
+while rspec spec
+do
+  echo ''
+done
+

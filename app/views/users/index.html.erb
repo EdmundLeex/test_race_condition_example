@@ -13,16 +13,19 @@
 </div>
 
 <script>
+  let counter = 0;
+
   $('#create_user').on('click', () => {
     let email = $('#email').val();
     createUser(email);
   });
 
   $('#hacked_create_user').on('click', () => {
-    let email = 'hacker_email@example.com';
+    let email = 'hacker_email_' + counter + '@example.com';
     for (let i = 0; i < 100; i ++) {
-      setTimeout(createUser.bind(null, email), 1000);
+      createUser(email);
     }
+    counter += 1;
   });
 
   function createUser(email) {

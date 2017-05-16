@@ -6,7 +6,7 @@ RSpec.describe User, type: :model do
       expect { User.create! }.to raise_error ActiveRecord::RecordInvalid
     end
 
-    context 'signle threaded' do
+    context 'single threaded' do
       it "doesn't allow duplicate email" do
         User.create!(email: 'foobar@example.com')
         expect { User.create!(email: 'foobar@example.com') }.to raise_error ActiveRecord::RecordInvalid
